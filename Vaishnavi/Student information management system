@@ -1,0 +1,636 @@
+login.html
+
+{% extends "layout.html" %}
+
+{% block title %}Login - Student Information System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm mt-5">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
+                        <h3>Student Information System</h3>
+                        <p class="text-muted">Sign in to access the dashboard</p>
+                    </div>
+                    
+                    <form method="POST" action="{{ url_for('login') }}">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">{{ form.username.label }}</label>
+                            {{ form.username(class="form-control", placeholder="Enter username") }}
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">{{ form.password.label }}</label>
+                            {{ form.password(class="form-control", placeholder="Enter password") }}
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            {{ form.remember(class="form-check-input") }}
+                            <label class="form-check-label" for="remember">{{ form.remember.label }}</label>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}dashboard.html
+
+{% extends "layout.html" %}
+
+{% block title %}Dashboard - Student Information System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h1>
+</div>
+
+<!-- Stats Overview -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card dashboard-card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Students</div>
+                        <div class="h5 mb-0 font-weight-bold">{{ students_count }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-primary stretched-link" href="{{ url_for('students') }}">View Details</a>
+                <div class="small text-primary"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card dashboard-card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Courses</div>
+                        <div class="h5 mb-0 font-weight-bold">{{ courses_count }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-success stretched-link" href="{{ url_for('courses') }}">View Details</a>
+                <div class="small text-success"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card dashboard-card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Attendance Tracking</div>
+                        <div class="h5 mb-0 font-weight-bold">Active</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-check fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-info stretched-link" href="{{ url_for('attendance') }}">Manage Attendance</a>
+                <div class="small text-info"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card dashboard-card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Reports</div>
+                        <div class="h5 mb-0 font-weight-bold">Generate</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-warning stretched-link" href="{{ url_for('reports') }}">View Reports</a>
+                <div class="small text-warning"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="row mb-4">
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Attendance Overview</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Grade Distribution</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="gradeDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Students -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Recently Added Students</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Enrollment Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in recent_students %}
+                            <tr>
+                                <td>{{ student.student_id }}</td>
+                                <td>{{ student.full_name() }}</td>
+                                <td>{{ student.email }}</td>
+                                <td>{{ student.enrollment_date.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <a href="{{ url_for('view_student', id=student.id) }}" class="btn btn-sm btn-info btn-action">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-sm btn-primary btn-action">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">No students found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('students') }}" class="btn btn-outline-primary">View All Students</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create attendance chart
+        const attendanceData = {{ attendance_data|tojson }};
+        createAttendanceChart('attendanceChart', attendanceData);
+        
+        // Create grade distribution chart
+        const gradeDistributionData = {{ grade_distribution|tojson }};
+        createGradeDistributionChart('gradeDistributionChart', gradeDistributionData);
+    });
+</script>
+{% endblock %}
+addstudent.html
+
+{% extends "layout.html" %}
+
+{% block title %}Add Student - Student Information System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-user-plus me-2"></i>Add New Student</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('students') }}" class="btn btn-sm btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back to Students
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Student Information</h6>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_student') }}" class="needs-validation" novalidate>
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first_name" class="required-field">{{ form.first_name.label }}</label>
+                                {{ form.first_name(class="form-control", placeholder="Enter first name") }}
+                                {% if form.first_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.first_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="last_name" class="required-field">{{ form.last_name.label }}</label>
+                                {{ form.last_name(class="form-control", placeholder="Enter last name") }}
+                                {% if form.last_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.last_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email" class="required-field">{{ form.email.label }}</label>
+                                {{ form.email(class="form-control", placeholder="Enter email address", type="email") }}
+                                {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="student_id" class="required-field">{{ form.student_id.label }}</label>
+                                {{ form.student_id(class="form-control", placeholder="Enter student ID") }}
+                                {% if form.student_id.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.student_id.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="date_of_birth" class="required-field">{{ form.date_of_birth.label }}</label>
+                                {{ form.date_of_birth(class="form-control", type="date") }}
+                                {% if form.date_of_birth.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.date_of_birth.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="gender" class="required-field">{{ form.gender.label }}</label>
+                                {{ form.gender(class="form-select") }}
+                                {% if form.gender.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.gender.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="address">{{ form.address.label }}</label>
+                        {{ form.address(class="form-control", placeholder="Enter address") }}
+                        {% if form.address.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.address.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">{{ form.phone.label }}</label>
+                                {{ form.phone(class="form-control", placeholder="Enter phone number") }}
+                                {% if form.phone.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.phone.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="enrollment_date" class="required-field">{{ form.enrollment_date.label }}</label>
+                                {{ form.enrollment_date(class="form-control", type="date") }}
+                                {% if form.enrollment_date.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.enrollment_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group text-center mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Save Student
+                        </button>
+                        <a href="{{ url_for('students') }}" class="btn btn-secondary ms-2">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}main.py
+
+from sqlalchemy import func
+from app import db
+from models import Student, Course, CourseSession, Attendance, Enrollment, AssessmentType, Mark
+
+def calculate_attendance(course_id=None):
+    """
+    Calculate attendance statistics for charts
+    
+    Args:
+        course_id: Optional. If provided, filter by specific course
+        
+    Returns:
+        Dictionary with attendance data
+    """
+    # Base query for attendance counts
+    attendance_query = db.session.query(
+        Attendance.status,
+        func.count(Attendance.id).label('count')
+    )
+    
+    if course_id:
+        # Filter by course if provided
+        attendance_query = attendance_query.join(
+            CourseSession, Attendance.session_id == CourseSession.id
+        ).filter(
+            CourseSession.course_id == course_id
+        )
+    
+    # Group by status and execute
+    attendance_data = attendance_query.group_by(Attendance.status).all()
+    
+    # Process data into format for chart.js
+    labels = []
+    data = []
+    background_colors = []
+    
+    status_colors = {
+        'Present': 'rgba(75, 192, 192, 0.6)',  # Green
+        'Absent': 'rgba(255, 99, 132, 0.6)',   # Red
+        'Excused': 'rgba(255, 205, 86, 0.6)'   # Yellow
+    }
+    
+    for status, count in attendance_data:
+        labels.append(status)
+        data.append(count)
+        background_colors.append(status_colors.get(status, 'rgba(201, 203, 207, 0.6)'))
+    
+    return {
+        'labels': labels,
+        'data': data,
+        'backgroundColor': background_colors
+    }
+
+def calculate_grade_distribution():
+    """
+    Calculate grade distribution for charts
+    
+    Returns:
+        Dictionary with grade distribution data
+    """
+    # Get all marks
+    marks = Mark.query.all()
+    
+    # Calculate grades and count
+    grade_counts = {'A+': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0, 'F': 0}
+    
+    for mark in marks:
+        grade = mark.grade()
+        if grade in grade_counts:
+            grade_counts[grade] += 1
+    
+    # Process data into format for chart.js
+    labels = list(grade_counts.keys())
+    data = list(grade_counts.values())
+    
+    # Define colors for grades
+    colors = [
+        'rgba(0, 128, 0, 0.6)',     # A+ (Dark Green)
+        'rgba(75, 192, 192, 0.6)',   # A (Green)
+        'rgba(54, 162, 235, 0.6)',   # B (Blue)
+        'rgba(255, 205, 86, 0.6)',   # C (Yellow)
+        'rgba(255, 159, 64, 0.6)',   # D (Orange)
+        'rgba(255, 99, 132, 0.6)'    # F (Red)
+    ]
+    
+    return {
+        'labels': labels,
+        'data': data,
+        'backgroundColor': colors
+    }
+
+def calculate_course_performance(course_id):
+    """
+    Calculate student performance for a specific course
+    
+    Args:
+        course_id: Course ID to analyze
+        
+    Returns:
+        Dictionary with performance data
+    """
+    try:
+        # Get all enrollments for the course
+        enrollments = Enrollment.query.filter_by(course_id=course_id).all()
+        
+        if not enrollments:
+            return {
+                'course_code': '',
+                'course_title': '',
+                'students': [],
+                'average_score': 0,
+                'highest_score': 0,
+                'lowest_score': 0,
+                'assessment_averages': []
+            }
+        
+        # Get course details
+        course = Course.query.get(course_id)
+        
+        # Initialize result structure
+        result = {
+            'course_code': course.course_code,
+            'course_title': course.title,
+            'students': [],
+            'average_score': 0,
+            'highest_score': 0,
+            'lowest_score': 100,
+            'assessment_averages': []
+        }
+        
+        total_percentage = 0
+        student_count = 0
+        
+        # Get all assessment types
+        assessment_types = AssessmentType.query.all()
+        assessment_sums = {at.id: {'sum': 0, 'count': 0, 'name': at.name} for at in assessment_types}
+        
+        # Calculate student scores
+        for enrollment in enrollments:
+            student = Student.query.get(enrollment.student_id)
+            
+            # Get all marks for this enrollment
+            marks = Mark.query.filter_by(enrollment_id=enrollment.id).all()
+            
+            if not marks:
+                continue
+            
+            # Calculate weighted average
+            weighted_sum = 0
+            weight_total = 0
+            
+            for mark in marks:
+                assessment_type = AssessmentType.query.get(mark.assessment_type_id)
+                percentage = mark.percentage()
+                weighted_sum += percentage * assessment_type.weight
+                weight_total += assessment_type.weight
+                
+                # Add to assessment type sum
+                assessment_sums[assessment_type.id]['sum'] += percentage
+                assessment_sums[assessment_type.id]['count'] += 1
+            
+            # Only include student if they have marks
+            if weight_total > 0:
+                final_percentage = weighted_sum / weight_total
+                
+                # Add student data - use serializable values
+                result['students'].append({
+                    'name': student.full_name(),
+                    'student_id': student.student_id,
+                    'percentage': final_percentage,
+                    'grade': get_grade_from_percentage(final_percentage)
+                })
+                
+                # Update statistics
+                total_percentage += final_percentage
+                student_count += 1
+                result['highest_score'] = max(result['highest_score'], final_percentage)
+                result['lowest_score'] = min(result['lowest_score'], final_percentage)
+        
+        # Calculate course average
+        if student_count > 0:
+            result['average_score'] = total_percentage / student_count
+        
+        # Convert assessment averages to a list for easier serialization
+        assessment_average_list = []
+        for at_id, data in assessment_sums.items():
+            if data['count'] > 0:
+                assessment_average_list.append({
+                    'assessment': data['name'],
+                    'average': data['sum'] / data['count']
+                })
+        
+        # Replace with the list
+        result['assessment_averages'] = assessment_average_list
+        
+        # Sort students by percentage (descending)
+        result['students'].sort(key=lambda x: x['percentage'], reverse=True)
+        
+        return result
+    except Exception as e:
+        print(f"Error in calculate_course_performance: {str(e)}")
+        return {
+            'course_code': '',
+            'course_title': '',
+            'students': [],
+            'average_score': 0,
+            'highest_score': 0,
+            'lowest_score': 0,
+            'assessment_averages': []
+        }
